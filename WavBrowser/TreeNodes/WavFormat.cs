@@ -18,7 +18,7 @@ namespace WavBrowser.TreeNodes
 
 		public override object GetProperties()
 		{
-			using (var reader = new BinaryReader(Source.GetStream()))
+			using (var reader = new BinaryReader(Source.GetStream()))	
 			{
 				reader.BaseStream.Position = Position;
 
@@ -27,11 +27,19 @@ namespace WavBrowser.TreeNodes
 
 				var format = reader.ReadUInt16();
 				var channelCount = reader.ReadUInt16();
+				var samplesPerSecond = reader.ReadUInt32();
+				var averageBytesPerSecond = reader.ReadUInt32();
+				var blockAlignment = reader.ReadUInt16();
+				var bitsPerSample = reader.ReadUInt16();
 
 				return new
 				{
 					Format = format,
-					ChannelCount = channelCount
+					ChannelCount = channelCount,
+					SamplesPerSecond = samplesPerSecond,
+					AverageBytesPerSecond = averageBytesPerSecond,
+					BlockAlignment = blockAlignment,
+					BitsPerSample = bitsPerSample
 				};
 			}
 		}
